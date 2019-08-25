@@ -14,6 +14,7 @@ $pdo = new PDO($dsn, $db_user, $db_password, $options);
 $user_name = $_POST['user_name'];
 $email = $_POST['email'];
 $password = $_POST['password'];
+$password = password_hash($password, PASSWORD_BCRYPT);
 $password_confirmation = $_POST['password_confirmation'];
 
 $sql = "INSERT INTO users (id, name, email, password) VALUES (NULL, :user_name, :email, :password)";
