@@ -1,4 +1,5 @@
 <?php
+session_start();
 $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
 $host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
 $db_name = 'marlin_db'; // имя базы данных 
@@ -20,6 +21,9 @@ if (isset($_POST['user_name']) and !empty($_POST['user_name'])) {
 		$stmt = $pdo->prepare($sql);
 		$stmt->execute($_POST);
 		header('Location: /index.php');
+		$_SESSION['add_comment'] = 1;
+	}else{
+		$_SESSION['add_comment'] = 0;
 	}
 }
 

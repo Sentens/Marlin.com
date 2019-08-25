@@ -1,4 +1,5 @@
 <?php
+session_start();
 $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
 $host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
 $db_name = 'marlin_db'; // имя базы данных 
@@ -67,10 +68,16 @@ $pdo = new PDO($dsn, $db_user, $db_password, $options);
                             <div class="card-header"><h3>Комментарии</h3></div>
 
                             <div class="card-body">
-                              <div class="alert alert-success" role="alert">
-                                Комментарий успешно добавлен
-                              </div>
-<?php 
+<?php
+    if ($_SESSION['add_comment'])
+    {
+?>
+                                <div class="alert alert-success" role="alert">
+                                     Комментарий успешно добавлен
+                                </div>
+<?php
+unset($_SESSION['add_comment']);
+}
         $sql = "SELECT * FROM comments;";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
