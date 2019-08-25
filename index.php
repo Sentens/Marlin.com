@@ -73,7 +73,7 @@ $pdo = new PDO($dsn, $db_user, $db_password, $options);
     {
 ?>
                                 <div class="alert alert-success" role="alert">
-                                     Комментарий успешно добавлен
+                                   Комментарий успешно добавлен
                                 </div>
 <?php
 unset($_SESSION['add_comment']);
