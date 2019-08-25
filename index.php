@@ -78,7 +78,7 @@ $pdo = new PDO($dsn, $db_user, $db_password, $options);
 <?php
 unset($_SESSION['add_comment']);
 }
-        $sql = "SELECT * FROM comments;";
+        $sql = "SELECT * FROM comments ORDER BY `date` DESC;";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
