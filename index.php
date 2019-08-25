@@ -75,7 +75,6 @@ $comments = [
 ];
 
 
-
 foreach ($comments as $user) {
  ?>
                                 <div class="media">
