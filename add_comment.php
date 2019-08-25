@@ -20,11 +20,13 @@ if (isset($_POST['user_name']) and !empty($_POST['user_name'])) {
 		$sql = "INSERT INTO comments (id_comment, user_name, comment, `date`) VALUES (NULL, :user_name, :comment, '$date');";
 		$stmt = $pdo->prepare($sql);
 		$stmt->execute($_POST);
-		header('Location: /index.php');
 		$_SESSION['add_comment'] = 1;
+		header('Location: /index.php');
 	}else{
 		$_SESSION['add_comment'] = 0;
 	}
+}else{
+	$_SESSION['add_comment'] = 0;
 }
 
 ?>
