@@ -111,10 +111,24 @@ foreach ($comments as $user) {
                                     <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Имя</label>
                                     <input name="user_name" class="form-control" id="exampleFormControlTextarea1" />
+<?php
+if ($_SESSION['error_empty_name'])
+{
+    echo '<div style="color:red;">Это поле не должно быть пустым!</div>';
+    unset($_SESSION['error_empty_name']);
+}
+?>                  
                                   </div>
                                   <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Сообщение</label>
                                     <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+<?php
+if ($_SESSION['error_empty_comment'])
+{
+    echo '<div style="color:red;">Это поле не должно быть пустым!</div>';
+    unset($_SESSION['error_empty_comment']);
+}
+?>   
                                   </div>
                                   <button type="submit" class="btn btn-success">Отправить</button>
                                 </form>
