@@ -1,5 +1,6 @@
 <?php
 session_start();
+var_dump($_SESSION);
 $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
 $host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
 $db_name = 'marlin_db'; // имя базы данных 

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,7 +55,7 @@
                             <div class="card-header">Login</div>
 
                             <div class="card-body">
-                                <form method="POST" action="">
+                                <form method="POST" action="auth.php">
 
                                     <div class="form-group row">
                                         <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
@@ -60,7 +63,16 @@
                                         <div class="col-md-6">
                                             <input id="email" type="email" class="form-control is-invalid " name="email"  autocomplete="email" autofocus >
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>Ошибка валидации</strong>
+                                                    <strong><?php 
+                                                    if ($_SESSION['error_empty_email']) {
+                                                        echo "Поле не должно быть пустым";
+                                                        unset($_SESSION['error_empty_email']);
+                                                    }
+                                                    if ($_SESSION['error_find_email']) {
+                                                        echo "Пользователя с таким емейлом не существует";
+                                                        unset($_SESSION['error_find_email']);
+                                                    }
+                                                     ?></strong>
                                                 </span>
                                         </div>
                                     </div>
@@ -70,6 +82,18 @@
 
                                         <div class="col-md-6">
                                             <input id="password" type="password" class="form-control" name="password"  autocomplete="current-password">
+                                                    <strong style="color:#e3342f; font-size: 80%;">
+                                                    <?php 
+                                                    if ($_SESSION['error_empty_password']) {
+                                                        echo "Поле не должно быть пустым";
+                                                        unset($_SESSION['error_empty_password']);
+                                                    }
+                                                    if ($_SESSION['error_password']) {
+                                                        echo "Неверный пароль";
+                                                        unset($_SESSION['error_password']);
+                                                    }
+                                                    ?>
+                                                    </strong>
                                         </div>
                                     </div>
 
