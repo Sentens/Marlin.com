@@ -50,18 +50,20 @@ if (empty($password_confirmation)) {
 if ((!empty($password) and !empty($password_confirmation)) and ($password !== $password_confirmation)) {
 	$_SESSION['error_password_valid'] = 1;
 	$flag = 1;
+}else{
+	// Проверяем длину строки пароля минимум 6 символов
+	if (strlen($password) < 6 ) {
+		$_SESSION['error_password_strlen'] = 1;
+		$flag = 1;
+	}
+	// Проверяем длину строки пароля минимум 6 символов
+	if (strlen($password_confirmation) < 6 ) {
+		$_SESSION['error_password_confirmation_strlen'] = 1;
+		$flag = 1;
+	}
 }
 
-// Проверяем длину строки пароля минимум 6 символов
-if (strlen($password) < 6 ) {
-	$_SESSION['error_password_strlen'] = 1;
-	$flag = 1;
-}
-// Проверяем длину строки пароля минимум 6 символов
-if (strlen($password_confirmation) < 6 ) {
-	$_SESSION['error_password_confirmation_strlen'] = 1;
-	$flag = 1;
-}
+
 
 
 // Если одно из значений не выполняет условиям, переходим на страницу регистрации и завершаем скрипт.
