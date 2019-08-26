@@ -1,6 +1,6 @@
 <?php
 session_start();
-var_dump($_SESSION);
+$login = $_SESSION['login'];
 $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
 $host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
 $db_name = 'marlin_db'; // имя базы данных 
@@ -50,6 +50,9 @@ $pdo = new PDO($dsn, $db_user, $db_password, $options);
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                            <li>
+                                <a href="#" class="nav-link">Привет <?php echo $login; ?></a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="login.php">Login</a>
                             </li>
