@@ -80,7 +80,7 @@ session_start();
                                         <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
                                         <div class="col-md-6">
                                             <input id="email" type="text" class="form-control" name="email" >
-                                            <strong>
+                                            <strong style="color:#e3342f; font-size: 80%;">
                                                     <?php
                                                     if ($_SESSION['error_empty_email']){
                                                         echo 'Поле не должно быть пустым';
@@ -89,6 +89,10 @@ session_start();
                                                     if ($_SESSION['error_email_valid']){
                                                         echo 'Данное поле не является емейлом';
                                                         unset($_SESSION['error_email_valid']);
+                                                        };
+                                                    if ($_SESSION['error_email_in_base']){
+                                                        echo 'Такой емейл уже существует';
+                                                        unset($_SESSION['error_email_in_base']);
                                                         };
 
                                                     ?>
@@ -101,7 +105,7 @@ session_start();
 
                                         <div class="col-md-6">
                                             <input id="password" type="password" class="form-control " name="password"  autocomplete="new-password">
-                                            <strong>
+                                            <strong style="color:#e3342f; font-size: 80%;">
                                                     <?php
                                                     if ($_SESSION['error_empty_password']){
                                                         echo 'Поле не должно быть пустым';
@@ -124,7 +128,7 @@ session_start();
 
                                         <div class="col-md-6">
                                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
-                                            <strong>
+                                            <strong style="color:#e3342f; font-size: 80%;">
                                                     <?php
                                                     if ($_SESSION['error_empty_password_confirmation']){
                                                         echo 'Поле не должно быть пустым';
