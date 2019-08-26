@@ -33,11 +33,11 @@ if (empty($email)) {
 		  $_SESSION['error_email_valid'] = 1;
 	 	  $flag = 1;
 	}
-
-$stmt=$pdo->prepare("SELECT email FROM users WHERE email = :emeil");
-$stmt->bindParam(':emeil', $email);
-$stmt->execute();
-$result = $stmt -> fetch();
+	// Проверка на дубликат Email
+	$stmt=$pdo->prepare("SELECT email FROM users WHERE email = :emeil");
+	$stmt->bindParam(':emeil', $email);
+	$stmt->execute();
+	$result = $stmt -> fetch();
 	if ($result) {
 		$_SESSION['error_email_in_base'] = 1;
 		$flag = 1;
