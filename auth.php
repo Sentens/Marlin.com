@@ -18,17 +18,19 @@ $password = $_POST['password'];
 if (empty($email)) {
 	$_SESSION['error_empty_email'] = 1;
 	$flag = 1;
+}else{
+	// Проверяем валидацию емейла
+	if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+		  $_SESSION['error_email_valid'] = 1;
+	 	  $flag = 1;
+	}
 }
 
 if (empty($password)) {
 	$_SESSION['error_empty_password'] = 1;
 	$flag = 1;
 }
-// Проверяем валидацию емейла
-if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-	  $_SESSION['error_email_valid'] = 1;
- 	  $flag = 1;
-}
+
 
 if ($flag == 1) {
 	header('Location: /login.php');
