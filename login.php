@@ -72,6 +72,10 @@ session_start();
                                                         echo "Пользователя с таким емейлом не существует";
                                                         unset($_SESSION['error_find_email']);
                                                     }
+                                                    if ($_SESSION['error_email_valid']){
+                                                        echo 'Данное поле не является емейлом';
+                                                        unset($_SESSION['error_email_valid']);
+                                                        };
                                                      ?></strong>
                                                 </span>
                                         </div>
