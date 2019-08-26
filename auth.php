@@ -31,11 +31,11 @@ if (empty($password)) {
 	$flag = 1;
 }
 
-
 if ($flag == 1) {
 	header('Location: /login.php');
 	exit;
 }
+
 
 	// Ищем, есть ли в базе пользователь с таким емейлом
 	$stmt=$pdo->prepare("SELECT id, name, email, password FROM users WHERE email = :emeil");
