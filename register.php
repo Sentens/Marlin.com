@@ -64,12 +64,14 @@ session_start();
                                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="user_name" autofocus>
 
                                                 <span class="invalid-feedback" role="alert">
+                                                    <strong>
                                                     <?php
                                                     if ($_SESSION['error_empty_user_name']){
-                                                        echo '<strong>Поле не должно быть пустым</strong>';
+                                                        echo 'Поле не должно быть пустым';
                                                         unset($_SESSION['error_empty_user_name']);
                                                         };
                                                     ?>
+                                            </strong>
                                                 </span>
                                         </div>
                                     </div>
@@ -78,17 +80,19 @@ session_start();
                                         <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
                                         <div class="col-md-6">
                                             <input id="email" type="text" class="form-control" name="email" >
+                                            <strong>
                                                     <?php
                                                     if ($_SESSION['error_empty_email']){
-                                                        echo '<strong>Поле не должно быть пустым</strong>';
+                                                        echo 'Поле не должно быть пустым';
                                                         unset($_SESSION['error_empty_email']);
                                                     };
                                                     if ($_SESSION['error_email_valid']){
-                                                        echo '<strong>Данное поле не является емейлом</strong>';
+                                                        echo 'Данное поле не является емейлом';
                                                         unset($_SESSION['error_email_valid']);
                                                         };
 
                                                     ?>
+                                            </strong>
                                         </div>
                                     </div>
 
@@ -97,15 +101,21 @@ session_start();
 
                                         <div class="col-md-6">
                                             <input id="password" type="password" class="form-control " name="password"  autocomplete="new-password">
+                                            <strong>
                                                     <?php
                                                     if ($_SESSION['error_empty_password']){
-                                                        echo '<strong>Поле не должно быть пустым</strong>';
+                                                        echo 'Поле не должно быть пустым';
                                                         unset($_SESSION['error_empty_password']);
                                                     };
                                                     if ($_SESSION['error_password_valid']){
-                                                        echo '<strong>Пароли не совпадают</strong>';
+                                                        echo 'Пароли не совпадают';
+                                                        }
+                                                    if ($_SESSION['error_password_strlen']){
+                                                        echo 'Длина пароля должна быть не меньше 6 символов';
+                                                        unset($_SESSION['error_password_strlen']);
                                                         }
                                                     ?>
+                                            </strong>
                                         </div>
                                     </div>
 
@@ -114,16 +124,22 @@ session_start();
 
                                         <div class="col-md-6">
                                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
+                                            <strong>
                                                     <?php
                                                     if ($_SESSION['error_empty_password_confirmation']){
-                                                        echo '<strong>Поле не должно быть пустым</strong>';
+                                                        echo 'Поле не должно быть пустым';
                                                         unset($_SESSION['error_empty_password_confirmation']);
                                                     };
                                                     if ($_SESSION['error_password_valid']){
-                                                        echo '<strong>Пароли не совпадают</strong>';
+                                                        echo 'Пароли не совпадают';
                                                         unset($_SESSION['error_password_valid']);
                                                         }
+                                                    if ($_SESSION['error_password_confirmation_strlen']){
+                                                        echo 'Длина пароля должна быть не меньше 6 символов';
+                                                        unset($_SESSION['error_password_confirmation_strlen']);
+                                                        }
                                                     ?>
+                                            </strong>
                                         </div>
                                     </div>
 
