@@ -40,7 +40,6 @@ if (empty($_SESSION['name']) or empty($_SESSION['id'])) {
 }
 
 
-
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +79,7 @@ if (empty($_SESSION['name']) or empty($_SESSION['id'])) {
                         <!-- Authentication Links -->
                         <?php if (isset($_SESSION['name'])): ?>
                             <li><a href="#" class="nav-link">Привет <?php echo $_SESSION['name']; ?></a></li>
-                            <li class="nav-item"><a class="nav-link" href="exit.php">Выход</a></li>
+                            <li class="nav-item"><a class="nav-link" href="exit2.php">Выход</a></li>
                         <?php else: ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="login.php">Login</a>
