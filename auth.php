@@ -36,20 +36,32 @@ if ($flag == 1) {
 	exit;
 }
 
-
 	// Ищем, есть ли в базе пользователь с таким емейлом
 	$stmt=$pdo->prepare("SELECT id, name, email, password FROM users WHERE email = :emeil");
-	$stmt->bindParam(':emeil', $email);
+	$stmt->bindValue(':emeil', $email);
 	$stmt->execute();
 	$result = $stmt -> fetch();
 	// Если есть такой емейл
 	if ($result) {
 		// Проверяем захешированные пароли
 		if (password_verify($password, $result['password'])) {
+
 			//Записываем в сессию вход
 		    $_SESSION['name'] = $result['name'];
 		    $_SESSION['id'] = $result['id'];
+
+		    //Если стоит галочка Remember Me, сохраняем в куки на 24 часа
+		    if ($_POST['remember'] === 'on') {
+		    	setcookie("email", $email, time() + 3600*24);
+		    	setcookie("password", $result['password'], time() + 3600*24);
+		    }else{
+		    	setcookie('email', '', time());
+		    	setcookie('password', '', time()); 
+		    }
+
+		    // Перенаправляем
 		    header('Location: /index.php');
+
 		}else{
 			// Если нет
 			$_SESSION['error_password'] = 1;

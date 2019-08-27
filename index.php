@@ -1,6 +1,5 @@
 <?php
 session_start();
-$login = $_SESSION['name'];
 $driver = 'mysql'; // тип базы данных, с которой мы будем работать 
 $host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
 $db_name = 'marlin_db'; // имя базы данных 
@@ -11,6 +10,35 @@ $options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]; // массив с д�
 
 $dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
 $pdo = new PDO($dsn, $db_user, $db_password, $options);
+
+
+// Проверяем есть ли данные в сессии
+if (empty($_SESSION['name']) or empty($_SESSION['id'])) {
+
+    // Вносим значение кук в переменные
+    $email = $_COOKIE['email'];
+    $password = $_COOKIE['password'];
+
+    // Проверяем, есть ли в куках емейл
+    if ($email) {
+        $stmt=$pdo->prepare("SELECT id, name, password FROM users WHERE email = :emeil");
+        $stmt->bindValue(':emeil', $email);
+        $stmt->execute();
+        $result = $stmt -> fetch();
+
+        //Если пароль в куках соответствует паролю в БД, записываем сессию
+        if ($password === $result['password']) {
+            $_SESSION['name'] = $result['name'];
+            $_SESSION['id'] = $result['id'];
+        }else{
+            header('Location: /login.php');
+        }
+
+    }else{
+        header('Location: /login.php');
+    }
+}
+
 
 
 ?>
@@ -50,8 +78,8 @@ $pdo = new PDO($dsn, $db_user, $db_password, $options);
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        <?php if (isset($_SESSION['id'])): ?>
-                            <li><a href="#" class="nav-link">Привет <?php echo $login; ?></a></li>
+                        <?php if (isset($_SESSION['name'])): ?>
+                            <li><a href="#" class="nav-link">Привет <?php echo $_SESSION['name']; ?></a></li>
                             <li class="nav-item"><a class="nav-link" href="exit.php">Выход</a></li>
                         <?php else: ?>
                             <li class="nav-item">
