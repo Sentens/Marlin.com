@@ -50,15 +50,17 @@ $pdo = new PDO($dsn, $db_user, $db_password, $options);
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                            <li>
-                                <a href="#" class="nav-link">Привет <?php echo $login; ?></a>
-                            </li>
+                        <?php if (isset($_SESSION['id'])): ?>
+                            <li><a href="#" class="nav-link">Привет <?php echo $login; ?></a></li>
+                            <li class="nav-item"><a class="nav-link" href="exit.php">Выход</a></li>
+                        <?php else: ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="login.php">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="register.php">Register</a>
                             </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
