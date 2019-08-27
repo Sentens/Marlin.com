@@ -11,23 +11,20 @@ $options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]; // массив с д�
 $dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
 $pdo = new PDO($dsn, $db_user, $db_password, $options);
 
-if (isset($_POST['user_name']) and empty($_POST['user_name'])) {
-	$_SESSION['error_empty_name'] = 1;
-	header('Location: /index.php');
-	exit;
-}
-
 if (isset($_POST['comment']) and empty($_POST['comment'])) {
 	$_SESSION['error_empty_comment'] = 1;
 	header('Location: /index.php');
 	exit;
 }
 
-$user_name = $_POST['user_name'];
+$id_user = $_SESSION['id'];
 $comment = $_POST['comment'];
-$sql = "INSERT INTO comments (id_comment, user_name, comment) VALUES (NULL, :user_name, :comment);";
+
+$sql = "INSERT INTO comments (id_comment, id_user, comment) VALUES (NULL, :id_user, :comment);";
 $stmt = $pdo->prepare($sql);
-$stmt->execute($_POST);
+$stmt->bindValue(':id_user', $id_user);
+$stmt->bindValue(':comment', $comment);
+$stmt->execute();
 $_SESSION['add_comment'] = 1;
 header('Location: /index.php');
 

@@ -34,8 +34,6 @@ if (empty($_SESSION['name']) or empty($_SESSION['id'])) {
             header('Location: /login.php');
         }
 
-    }else{
-        header('Location: /login.php');
     }
 }
 
@@ -111,17 +109,16 @@ if (empty($_SESSION['name']) or empty($_SESSION['id'])) {
 <?php
 unset($_SESSION['add_comment']);
 }
-        $sql = "SELECT * FROM comments ORDER BY `date` DESC;";
+        $sql = "SELECT * FROM comments AS c LEFT JOIN users AS u ON c.id_user = u.id ORDER BY `date` DESC";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 foreach ($comments as $user) {
  ?>
                                 <div class="media">
                                   <img src="<?php echo $user['user_photo']; ?>" class="mr-3" alt="..." width="64" height="64">
                                   <div class="media-body">
-                                    <h5 class="mt-0"><?php echo $user['user_name']; ?></h5> 
+                                    <h5 class="mt-0"><?php echo $user['name']; ?></h5> 
                                     <span><small><?php echo date('d/m/Y', strtotime($user['date'])); ?></small></span>
                                     <p>
                                         <?php echo $user['comment']; ?>
@@ -134,40 +131,33 @@ foreach ($comments as $user) {
                             </div>
                         </div>
                     </div>
-                
-                    <div class="col-md-12" style="margin-top: 20px;">
-                        <div class="card">
-                            <div class="card-header"><h3>Оставить комментарий</h3></div>
+                <?php if (isset($_SESSION['name'])): ?>
+                            <div class="col-md-12" style="margin-top: 20px;">
+                                <div class="card">
+                                    <div class="card-header"><h3>Оставить комментарий</h3></div>
 
-                            <div class="card-body">
-                                <form action="add_comment.php" method="post">
-                                    <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Имя</label>
-                                    <input name="user_name" class="form-control" id="exampleFormControlTextarea1" />
-<?php
-if ($_SESSION['error_empty_name'])
-{
-    echo '<div style="color:red;">Это поле не должно быть пустым!</div>';
-    unset($_SESSION['error_empty_name']);
-}
-?>                  
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Сообщение</label>
-                                    <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-<?php
-if ($_SESSION['error_empty_comment'])
-{
-    echo '<div style="color:red;">Это поле не должно быть пустым!</div>';
-    unset($_SESSION['error_empty_comment']);
-}
-?>   
-                                  </div>
-                                  <button type="submit" class="btn btn-success">Отправить</button>
-                                </form>
+                                    <div class="card-body">
+                                        <form action="add_comment.php" method="post">
+                                          <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Сообщение</label>
+                                            <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                            <?php
+                                            if ($_SESSION['error_empty_comment'])
+                                            {
+                                                echo '<div style="color:red;">Это поле не должно быть пустым!</div>';
+                                                unset($_SESSION['error_empty_comment']);
+                                            }
+                                            ?>   
+                                          </div>
+                                          <button type="submit" class="btn btn-success">Отправить</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                    <?php else: ?>
+                        <div style="width: 100%; padding: 10px; margin: 15px; display: flex; justify-content: flex-start; background: #e1f0fc;">
+                            Чтобы оставить комментарий &nbsp<a href="/login.php"> авторизируйтесь</a></div>
+                    <?php endif ?>
                 </div>
             </div>
         </main>
