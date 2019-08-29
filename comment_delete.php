@@ -13,7 +13,7 @@ $pdo = new PDO($dsn, $db_user, $db_password, $options);
 
 $id_comment = $_GET['id'];
 
-//Обновляем данные профиля
+//Удаляем комметарий
 $sql = "DELETE FROM comments WHERE id_comment = :id_comment";
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':id_comment', $id_comment);
