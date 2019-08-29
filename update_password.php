@@ -58,7 +58,7 @@ if ($flag) {
 					$_SESSION['error_new_passwords_strlen'] = 1;
 			    	$flag = 1;
 			}else{
-				//Если новые пароли сопадают
+				//Если новые пароли совпадают
 			    if ($new_password == $password_confirmation) {
 			    	//Сохраняем новый пароль
 			    	$new_password = password_hash($new_password, PASSWORD_BCRYPT);
@@ -68,7 +68,7 @@ if ($flag) {
 					$stmt->bindValue(':password', $new_password);
 					$stmt->execute();
 			    }else{
-			    	//Если новые пароли не сопадают
+			    	//Если новые пароли не совпадают
 			    	$_SESSION['error_new_passwords_not_same'] = 1;
 			    	$flag = 1;
 			    }
