@@ -1,3 +1,18 @@
+<?php
+session_start();
+$driver = 'mysql'; // тип базы данных, с которой мы будем работать 
+$host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
+$db_name = 'marlin_db'; // имя базы данных 
+$db_user = 'root'; // имя пользователя для базы данных 
+$db_password = ''; // пароль пользователя 
+$charset = 'utf8'; // кодировка по умолчанию 
+$options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]; // массив с дополнительными настройками подключения. В данном примере мы установили отображение ошибок, связанных с базой данных, в виде исключений
+
+$dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
+$pdo = new PDO($dsn, $db_user, $db_password, $options);
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +51,7 @@
                         <?php if (isset($_SESSION['name'])): ?>
                             <li><a href="#" class="nav-link">Привет <?php echo $_SESSION['name']; ?></a></li>
                             <li class="nav-item"><a class="nav-link" href="profile.php">Профиль</a>
+                            <li class="nav-item"><a class="nav-link" href="admin.php">Админка</a>
                             <li class="nav-item"><a class="nav-link" href="exit2.php">Выход</a></li>
                         <?php else: ?>
                             <li class="nav-item">
@@ -70,21 +86,33 @@
                                     </thead>
 
                                     <tbody>
+<?php 
+
+$sql = "SELECT * FROM comments AS c LEFT JOIN users AS u ON c.id_user = u.id ORDER BY `date` DESC";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+foreach ($comments as $comment) {
+ ?>
                                         <tr>
                                             <td>
-                                                <img src="img/no-user.jpg" alt="" class="img-fluid" width="64" height="64">
+                                                <img src="<?php echo $comment['user_photo']; ?>" alt="" class="img-fluid" width="64" height="64">
                                             </td>
-                                            <td>John</td>
-                                            <td>12/08/2045</td>
-                                            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta aut quam cumque libero reiciendis, dolor.</td>
+                                            <td><?php echo $comment['name']; ?></td>
+                                            <td><?php echo date('d/m/Y', strtotime($comment['date'])); ?></td>
+                                            <td><?php echo $comment['comment']; ?></td>
                                             <td>
-                                                    <a href="" class="btn btn-success">Разрешить</a>
-
-                                                    <a href="" class="btn btn-warning">Запретить</a>
-
-                                                <a href="" onclick="return confirm('are you sure?')" class="btn btn-danger">Удалить</a>
+                                                <?php if ($comment['hidden']): ?>
+                                                    <a href="/comment_show.php?id=<?php echo $comment['id_comment']; ?>" class="btn btn-success">Разрешить</a>
+                                                <?php else: ?>
+                                                    <a href="/comment_hidden.php?id=<?php echo $comment['id_comment']; ?>" class="btn btn-warning">Запретить</a>
+                                                <?php endif ?>
+                                                <a href="/comment_delete.php?id=<?php echo $comment['id_comment']; ?>" onclick="return confirm('are you sure?')" class="btn btn-danger">Удалить</a>
                                             </td>
                                         </tr>
+<?php 
+}
+ ?>
                                     </tbody>
                                 </table>
                             </div>
