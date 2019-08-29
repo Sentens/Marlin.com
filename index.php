@@ -77,6 +77,7 @@ if (empty($_SESSION['name']) or empty($_SESSION['id'])) {
                         <!-- Authentication Links -->
                         <?php if (isset($_SESSION['name'])): ?>
                             <li><a href="#" class="nav-link">Привет <?php echo $_SESSION['name']; ?></a></li>
+                            <li class="nav-item"><a class="nav-link" href="profile.php">Профиль</a>
                             <li class="nav-item"><a class="nav-link" href="exit2.php">Выход</a></li>
                         <?php else: ?>
                             <li class="nav-item">
@@ -116,7 +117,7 @@ unset($_SESSION['add_comment']);
 foreach ($comments as $user) {
  ?>
                                 <div class="media">
-                                  <img src="<?php echo $user['user_photo']; ?>" class="mr-3" alt="..." width="64" height="64">
+                                  <img src="img/no-user.jpg" class="mr-3" alt="..." width="64" height="64">
                                   <div class="media-body">
                                     <h5 class="mt-0"><?php echo $user['name']; ?></h5> 
                                     <span><small><?php echo date('d/m/Y', strtotime($user['date'])); ?></small></span>

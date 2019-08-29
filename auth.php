@@ -37,7 +37,7 @@ if ($flag == 1) {
 }
 
 	// Ищем, есть ли в базе пользователь с таким емейлом
-	$stmt=$pdo->prepare("SELECT id, name, email, password FROM users WHERE email = :emeil");
+	$stmt=$pdo->prepare("SELECT id, name, user_photo, email, password FROM users WHERE email = :emeil");
 	$stmt->bindValue(':emeil', $email);
 	$stmt->execute();
 	$result = $stmt -> fetch();
@@ -49,6 +49,7 @@ if ($flag == 1) {
 			//Записываем в сессию вход
 		    $_SESSION['name'] = $result['name'];
 		    $_SESSION['id'] = $result['id'];
+		    $_SESSION['user_photo'] = $result['user_photo'];
 
 		    //Если стоит галочка Remember Me, сохраняем в куки на 24 часа
 		    if ($_POST['remember'] === 'on') {

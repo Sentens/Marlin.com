@@ -1,4 +1,26 @@
-<!DOCTYPE html>
+<?php 
+session_start();
+$driver = 'mysql'; // тип базы данных, с которой мы будем работать 
+$host = 'localhost';// альтернатива '127.0.0.1' - адрес хоста, в нашем случае локального
+$db_name = 'marlin_db'; // имя базы данных 
+$db_user = 'root'; // имя пользователя для базы данных 
+$db_password = ''; // пароль пользователя 
+$charset = 'utf8'; // кодировка по умолчанию 
+$options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]; // массив с дополнительными настройками подключения. В данном примере мы установили отображение ошибок, связанных с базой данных, в виде исключений
+
+$dsn = "$driver:host=$host;dbname=$db_name;charset=$charset";
+$pdo = new PDO($dsn, $db_user, $db_password, $options);
+
+$id = $_SESSION['id'];
+
+$stmt=$pdo->prepare("SELECT * FROM users WHERE id = :id");
+$stmt->bindValue(':id', $id);
+$stmt->execute();
+$result = $stmt -> fetch();
+
+?>
+
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -52,24 +74,53 @@
                         <div class="card-header"><h3>Профиль пользователя</h3></div>
 
                         <div class="card-body">
-                          <div class="alert alert-success" role="alert">
+<?php if ($_SESSION['success_update']): ?>
+                        <div class="alert alert-success" role="alert">
                             Профиль успешно обновлен
-                          </div>
+                        </div>
+<?php endif;
+unset($_SESSION['success_update']);
+?>
+                          
 
-                            <form action="" method="post" enctype="multipart/form-data">
+                            <form action="update_profile.php" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="exampleFormControlInput1">Name</label>
-                                            <input type="text" class="form-control" name="name" id="exampleFormControlInput1" value="John">
-                                           
+                                            <input type="text" class="form-control" name="name" id="exampleFormControlInput1" value="<?php echo $result['name']; ?>">
+                                            <span class="text text-danger">   
+                                            <?php
+                                            if ($_SESSION['error_empty_user_name'])
+                                            {
+                                                echo 'Поле не должно быть пустым';
+                                                unset($_SESSION['error_empty_user_name']);
+                                            }
+                                            ?>   
+                                            </span>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="exampleFormControlInput1">Email</label>
-                                            <input type="email" class="form-control is-invalid" name="email" id="exampleFormControlInput1" value="john@example.com">
-                                            <span class="text text-danger">
-                                                Ошибка валидации
+                                            <input type="email" class="form-control " name="email" id="exampleFormControlInput1" value="<?php echo $result['email']; ?>">
+                                            <span class="text text-danger">   
+                                            <?php
+                                            if ($_SESSION['error_empty_email'])
+                                            {
+                                                echo 'Поле не должно быть пустым';
+                                                unset($_SESSION['error_empty_email']);
+                                            }
+                                            if ($_SESSION['error_email_valid'])
+                                            {
+                                                echo 'Данное поле не является емейлом';
+                                                unset($_SESSION['error_email_valid']);
+                                            }
+                                            if ($_SESSION['error_email_in_base'])
+                                            {
+                                                echo 'Данный емейл уже есть в базе';
+                                                unset($_SESSION['error_email_in_base']);
+                                            }
+                                            ?>   
                                             </span>
                                         </div>
 
@@ -79,7 +130,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <img src="img/no-user.jpg" alt="" class="img-fluid">
+                                        <img src="<?php echo $result['user_photo']; ?>" alt="" class="img-fluid">
                                     </div>
 
                                     <div class="col-md-12">
