@@ -33,12 +33,18 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                        <?php if (isset($_SESSION['name'])): ?>
+                            <li><a href="#" class="nav-link">Привет <?php echo $_SESSION['name']; ?></a></li>
+                            <li class="nav-item"><a class="nav-link" href="profile.php">Профиль</a>
+                            <li class="nav-item"><a class="nav-link" href="exit2.php">Выход</a></li>
+                        <?php else: ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="login.php">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="register.php">Register</a>
                             </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>

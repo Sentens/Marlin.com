@@ -55,12 +55,18 @@ $result = $stmt -> fetch();
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                            <?php if (isset($_SESSION['name'])): ?>
+                            <li><a href="#" class="nav-link">Привет <?php echo $_SESSION['name']; ?></a></li>
+                            <li class="nav-item"><a class="nav-link" href="profile.php">Профиль</a>
+                            <li class="nav-item"><a class="nav-link" href="exit2.php">Выход</a></li>
+                        <?php else: ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="login.php">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="register.php">Register</a>
                             </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
@@ -147,26 +153,79 @@ unset($_SESSION['success_update']);
                         <div class="card-header"><h3>Безопасность</h3></div>
 
                         <div class="card-body">
-                            <div class="alert alert-success" role="alert">
-                                Пароль успешно обновлен
-                            </div>
-
-                            <form action="/profile/password" method="post">
+							<?php if ($_SESSION['success_update_password']): ?>
+								<div class="alert alert-success" role="alert">
+									Пароль успешно обновлен
+								</div>
+							<?php endif;
+							unset($_SESSION['success_update_password']);
+							 ?>
+                            <form action="update_password.php" method="post">
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="exampleFormControlInput1">Current password</label>
                                             <input type="password" name="current" class="form-control" id="exampleFormControlInput1">
+                                            <span class="text text-danger">  
+											<?php
+                                            if ($_SESSION['error_empty_current_password'])
+                                            {
+                                                echo 'Поле не должно быть пустым';
+                                                unset($_SESSION['error_empty_current_password']);
+                                            }
+                                            if ($_SESSION['error_password'])
+                                            {
+                                                echo 'Неверный текущий пароль';
+                                                unset($_SESSION['error_password']);
+                                            }
+                                            ?>   
+                                        	</span>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="exampleFormControlInput1">New password</label>
                                             <input type="password" name="password" class="form-control" id="exampleFormControlInput1">
+                                            <span class="text text-danger">  
+											<?php
+                                            if ($_SESSION['error_empty_new_password'])
+                                            {
+                                                echo 'Поле не должно быть пустым';
+                                                unset($_SESSION['error_empty_new_password']);
+                                            }
+                                            if ($_SESSION['error_new_passwords_not_same'])
+                                            {
+                                                echo 'Новые пароли не совпадают';
+                                            }
+                                            if ($_SESSION['error_new_passwords_strlen'])
+                                            {
+                                                echo 'Минимум 6 символов';
+                                            }
+                                            ?>   
+                                        	</span>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="exampleFormControlInput1">Password confirmation</label>
                                             <input type="password" name="password_confirmation" class="form-control" id="exampleFormControlInput1">
+                                            <span class="text text-danger">  
+											<?php
+                                            if ($_SESSION['error_empty_new_password_confirmation'])
+                                            {
+                                                echo 'Поле не должно быть пустым';
+                                                unset($_SESSION['error_empty_new_password_confirmation']);
+                                            }
+                                            if ($_SESSION['error_new_passwords_not_same'])
+                                            {
+                                                echo 'Новые пароли не совпадают';
+                                                unset($_SESSION['error_new_passwords_not_same']);
+                                            }
+                                            if ($_SESSION['error_new_passwords_strlen'])
+                                            {
+                                                echo 'Минимум 6 символов';
+                                                unset($_SESSION['error_new_passwords_strlen']);
+                                            }
+                                            ?>   
+                                        	</span>
                                         </div>
 
                                         <button class="btn btn-success">Submit</button>
