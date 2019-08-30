@@ -19,7 +19,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':id_comment', $id_comment);
 $stmt->execute();
 
-$_SESSION['success_update'] = 1;
 header('Location: /admin.php');
 
 
